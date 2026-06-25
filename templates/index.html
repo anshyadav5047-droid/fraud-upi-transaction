@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FraudGuard Pro - Advanced AI Protection</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffd700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        button {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+            border: none;
+            border-radius: 10px;
+            color: #1a1a2e;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+        }
+
+        .quick-actions {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-actions h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .result-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gauge-wrapper {
+            width: 100%;
+            max-width: 350px;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .gauge-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .gauge-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .gauge-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .result-card {
+            width: 100%;
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-card.safe {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(6, 182, 212, 0.2));
+            border: 2px solid #10b981;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .result-card.risk {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(249, 115, 22, 0.2));
+            border: 2px solid #ef4444;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+            animation: slideIn 0.5s ease-out, pulse-red 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 50px rgba(239, 68, 68, 0.6); }
+        }
+
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-card h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-card.safe h3 {
+            color: #10b981;
+        }
+
+        .result-card.risk h3 {
+            color: #ef4444;
+        }
+
+        .probability {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-card.safe .probability {
+            color: #10b981;
+        }
+
+        .result-card.risk .probability {
+            color: #ef4444;
+        }
+
+        .probability-label {
+            opacity: 0.9;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-badge.safe {
+            background: #10b981;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .status-badge.risk {
+            background: #ef4444;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .analytics-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .analytics-section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .history-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .history-details {
+            flex: 1;
+        }
+
+        .history-amount {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ffd700;
+        }
+
+        .history-time {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .history-status {
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .history-status.safe {
+            background: #10b981;
+            color: #ffffff;
+        }
+
+        .history-status.risk {
+            background: #ef4444;
+            color: #ffffff;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .insight-card {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .insight-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .insight-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🛡️</div>
+            <h1>FraudGuard Pro</h1>
+            <p class="subtitle">Advanced AI-Powered Transaction Protection</p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">98.8%</div>
+                    <div class="stat-label">Accuracy Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">8,000</div>
+                    <div class="stat-label">Training Samples</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">&lt;1s</div>
+                    <div class="stat-label">Response Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">Monitoring</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📊</div>
+                    <h2>Transaction Analysis</h2>
+                </div>
+                <form id="transactionForm">
+                    <div class="form-group">
+                        <label for="amount">Transaction Amount (₹)</label>
+                        <input type="number" id="amount" name="amount" step="0.01" required placeholder="Enter amount">
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label for="oldbalanceOrg">Old Balance - Origin</label>
+                            <input type="number" id="oldbalanceOrg" name="oldbalanceOrg" step="0.01" required placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="newbalanceOrig">New Balance - Origin</label>
+                            <input type="number" id="newbalanceOrig" name="newbalanceOrig" step="0.01" required placeholder="0.00">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label for="oldbalanceDest">Old Balance - Destination</label>
+                            <input type="number" id="oldbalanceDest" name="oldbalanceDest" step="0.01" required placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="newbalanceDest">New Balance - Destination</label>
+                            <input type="number" id="newbalanceDest" name="newbalanceDest" step="0.01" required placeholder="0.00">
+                        </div>
+                    </div>
+                    <button type="submit">Analyze Transaction</button>
+                </form>
+
+                <div class="quick-actions">
+                    <h3>⚡ Quick Test Examples</h3>
+                    <div class="action-buttons">
+                        <button type="button" class="action-btn" onclick="fillSafe()">✅ Safe Transaction</button>
+                        <button type="button" class="action-btn" onclick="fillRisk()">⚠️ Risky Transaction</button>
+                        <button type="button" class="action-btn" onclick="fillHighRisk()">🚨 High Risk</button>
+                        <button type="button" class="action-btn" onclick="clearForm()">🔄 Clear Form</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card result-section">
+                <div class="card-header">
+                    <div class="card-icon">🎯</div>
+                    <h2>Risk Assessment</h2>
+                </div>
+                
+                <div class="gauge-wrapper">
+                    <canvas id="riskGauge"></canvas>
+                    <div class="gauge-center">
+                        <div class="gauge-value" id="gaugeValue">0%</div>
+                        <div class="gauge-label">Risk Score</div>
+                    </div>
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Analyzing with AI...</p>
+                </div>
+
+                <div class="result-card" id="resultCard">
+                    <div class="result-icon" id="resultIcon"></div>
+                    <h3 id="resultTitle"></h3>
+                    <div class="probability" id="probability"></div>
+                    <p class="probability-label">Fraud Probability</p>
+                    <div class="status-badge" id="statusBadge"></div>
+                </div>
+
+                <div class="analytics-section">
+                    <h3>📈 Live Analytics</h3>
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <div class="insight-value" id="totalAnalyzed">0</div>
+                            <div class="insight-label">Total Analyzed</div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-value" id="safeCount">0</div>
+                            <div class="insight-label">Safe Transactions</div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-value" id="riskCount">0</div>
+                            <div class="insight-label">Flagged Risks</div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-value" id="avgRisk">0%</div>
+                            <div class="insight-label">Avg Risk Score</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-section">
+                    <h3>📋 Recent Analysis History</h3>
+                    <div class="history-list" id="historyList">
+                        <p style="text-align: center; opacity: 0.7; padding: 1rem;">No recent analysis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Chart.js gauge
+        const ctx = document.getElementById('riskGauge').getContext('2d');
+        
+        const riskGauge = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [0, 100],
+                    backgroundColor: ['#ffd700', 'rgba(255, 255, 255, 0.1)'],
+                    borderWidth: 0,
+                    circumference: 180,
+                    rotation: 270,
+                    cutout: '75%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
+            }
+        });
+
+        // Analytics tracking
+        let analysisHistory = [];
+        let totalAnalyzed = 0;
+        let safeCount = 0;
+        let riskCount = 0;
+        let totalRiskScore = 0;
+
+        // Form submission handler
+        document.getElementById('transactionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultCard').style.display = 'none';
+            
+            const formData = {
+                amount: document.getElementById('amount').value,
+                oldbalanceOrg: document.getElementById('oldbalanceOrg').value,
+                newbalanceOrig: document.getElementById('newbalanceOrig').value,
+                oldbalanceDest: document.getElementById('oldbalanceDest').value,
+                newbalanceDest: document.getElementById('newbalanceDest').value
+            };
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                document.getElementById('loading').style.display = 'none';
+                
+                if (result.error) {
+                    alert('Error: ' + result.error);
+                    return;
+                }
+                
+                const fraudProb = result.fraud_probability;
+                riskGauge.data.datasets[0].data = [fraudProb, 100 - fraudProb];
+                
+                let gaugeColor;
+                if (fraudProb < 30) {
+                    gaugeColor = '#10b981';
+                } else if (fraudProb < 70) {
+                    gaugeColor = '#f59e0b';
+                } else {
+                    gaugeColor = '#ef4444';
+                }
+                
+                riskGauge.data.datasets[0].backgroundColor[0] = gaugeColor;
+                riskGauge.update();
+                
+                const resultCard = document.getElementById('resultCard');
+                const resultIcon = document.getElementById('resultIcon');
+                const resultTitle = document.getElementById('resultTitle');
+                const probability = document.getElementById('probability');
+                const statusBadge = document.getElementById('statusBadge');
+                
+                resultCard.style.display = 'block';
+                resultCard.className = 'result-card ' + (result.classification.toLowerCase() === 'legitimate' ? 'safe' : 'risk');
+                
+                if (result.classification === 'Legitimate') {
+                    resultIcon.textContent = '✅';
+                    resultTitle.textContent = 'Safe Transaction';
+                    statusBadge.textContent = 'APPROVED';
+                    statusBadge.className = 'status-badge safe';
+                    safeCount++;
+                } else {
+                    resultIcon.textContent = '⚠️';
+                    resultTitle.textContent = 'High Risk Detected';
+                    statusBadge.textContent = 'BLOCKED';
+                    statusBadge.className = 'status-badge risk';
+                    riskCount++;
+                }
+                
+                probability.textContent = fraudProb.toFixed(1) + '%';
+                
+                // Update analytics
+                totalAnalyzed++;
+                totalRiskScore += fraudProb;
+                updateAnalytics();
+                addToHistory(formData.amount, result.classification, fraudProb);
+                
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                alert('Error: ' + error.message);
+            }
+        });
+
+        // Update analytics display
+        function updateAnalytics() {
+            document.getElementById('totalAnalyzed').textContent = totalAnalyzed;
+            document.getElementById('safeCount').textContent = safeCount;
+            document.getElementById('riskCount').textContent = riskCount;
+            document.getElementById('avgRisk').textContent = totalAnalyzed > 0 ? (totalRiskScore / totalAnalyzed).toFixed(1) + '%' : '0%';
+        }
+
+        // Add to history
+        function addToHistory(amount, status, riskScore) {
+            analysisHistory.unshift({ 
+                amount, 
+                status, 
+                riskScore,
+                time: new Date().toLocaleTimeString() 
+            });
+            if (analysisHistory.length > 10) analysisHistory.pop();
+            updateHistoryDisplay();
+        }
+
+        // Update history display
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('historyList');
+            if (analysisHistory.length === 0) {
+                historyList.innerHTML = '<p style="text-align: center; opacity: 0.7; padding: 1rem;">No recent analysis</p>';
+                return;
+            }
+            
+            historyList.innerHTML = analysisHistory.map(item => `
+                <div class="history-item">
+                    <div class="history-details">
+                        <div class="history-amount">₹${item.amount}</div>
+                        <div class="history-time">${item.time}</div>
+                    </div>
+                    <span class="history-status ${item.status.toLowerCase() === 'legitimate' ? 'safe' : 'risk'}">
+                        ${item.status.toLowerCase() === 'legitimate' ? 'Safe' : 'Risk'}
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        // Quick test functions
+        function fillSafe() {
+            document.getElementById('amount').value = '5000';
+            document.getElementById('oldbalanceOrg').value = '10000';
+            document.getElementById('newbalanceOrig').value = '5000';
+            document.getElementById('oldbalanceDest').value = '0';
+            document.getElementById('newbalanceDest').value = '5000';
+        }
+
+        function fillRisk() {
+            document.getElementById('amount').value = '50000';
+            document.getElementById('oldbalanceOrg').value = '100000';
+            document.getElementById('newbalanceOrig').value = '50000';
+            document.getElementById('oldbalanceDest').value = '10000';
+            document.getElementById('newbalanceDest').value = '60000';
+        }
+
+        function fillHighRisk() {
+            document.getElementById('amount').value = '200000';
+            document.getElementById('oldbalanceOrg').value = '250000';
+            document.getElementById('newbalanceOrig').value = '0';
+            document.getElementById('oldbalanceDest').value = '50000';
+            document.getElementById('newbalanceDest').value = '250000';
+        }
+
+        function clearForm() {
+            document.getElementById('transactionForm').reset();
+        }
+    </script>
+</body>
+</html>
